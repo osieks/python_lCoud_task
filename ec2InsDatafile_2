@@ -1,0 +1,10 @@
+Instance ID:i-0028d68d7b799f003
+Reservation ID:r-08cd5b81b123e5c1e
+Public IP:18.200.81.225
+Public Hostname:ec2-18-200-81-225.eu-west-1.compute.amazonaws.com
+Private IP:172.31.19.109
+Security Groups:r5d4-sg
+AMI ID:ami-0a8e758f5e873d1c1
+OS NAME: "Ubuntu"
+OS VERSION: "20.04.2 LTS (Focal Fossa)"
+Login able users: root sshd ubuntu

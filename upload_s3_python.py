@@ -4,7 +4,7 @@
 import boto3
 from botocore.client import ClientError
 import requests
-import subprocess
+#import subprocess
 import os
 
 # Collecting information about EC2 instance from AWS service

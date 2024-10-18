@@ -4,7 +4,6 @@
 import boto3
 from botocore.client import ClientError
 import requests
-from requests.auth import HTTPBasicAuth
 import subprocess
 import os
 
@@ -17,15 +16,14 @@ ec2InsDatafile = 'ec2InsDatafile'
 ec2_params = {
     'Instance ID': 'instance-id',
     'Reservation ID': 'reservation-id',
-    'Public IP': 'public_ipv4',
-    'Public Hostname': 'public_hostname',
+    'Public IP': 'public-ipv4',
+    'Public Hostname': 'public-hostname',
     'Private IP':'local-ipv4',
     'Security Groups':'security-groups',
-    'AMI ID': 'ami_id'
+    'AMI ID': 'ami-id'
 }
 
 with open(ec2InsDatafile, 'w') as fh:
-  
     for param, value in ec2_params.items():
         try: 
             response = requests.get(meta_data +'/' + value)

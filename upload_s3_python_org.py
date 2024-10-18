@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf8 -*-"
 
-import boto3
+import boto_3
 from botocore.client import ClientError
 import requests
 import subprocess
@@ -14,10 +14,10 @@ meta_data = 'http://169.254.169.254/latest/meta-data'
 ec2InsDatafile = 'ec2InsDatafile'
 ec2_params = {
     'Instance ID': 'instance-id',
-    'Reservation ID': 'reservation-id',
+    'Reservation ID': 'reservation-id'
     'Public IP': 'public_ipv4',
     'Public Hostname': 'public_hostname',
-    'Private IP':'local-ipv4',
+    'Private IP':'local-ipv4'
     'Security Groups':'security-groups',
     'AMI ID': 'ami_id'
 }
@@ -25,26 +25,26 @@ ec2_params = {
 try:
     fh = open(ec2InsDatafile, 'w')
 except:
-    print('Error while opening file for write')
-    exit(1)
+    print 'Error while opening file for write'
 
 for param, value in ec2_params.items():
     try:
-        response = requests.get(meta_data +'/' + value)
+        responce = requests.get(meta_data +'/' + value)
     except:
-        print("Error while making request")
-    if isinstance(response.text,list):
-        print(response.text +': is list')
-        data = ' '.join(response.text)
+        print "Error while making request"
+    if isinstance(responce.text,list):
+        print responce.text +': is list'
+        data = ' '.joint(responce.text)
     else:
-        data = param +":"+response.text
+        data = param +":"+responce.text
     try:
           fh.write(data+'\r\n')
     except:
         print('Error during writing to file')
-        print(data)
+        print data
 
 #Getting  OS related if from system files
+
 os_vers = "grep '^VERSION=' /etc/os-release |cut -d'=' -f2"
 os_name = "grep '^NAME' /etc/os-release |cut -d'=' -f2"
 os_name_val ='OS NAME: '+ os.popen(os_name).read().rstrip()
@@ -56,8 +56,7 @@ try:
     fh.write(os_vers_val+'\r\n')
     fh.write(os_usrs_val+'\r\n')
 except:
-    print("Error during write to file")
-finally:
+    print "Error during write to file"
     fh.close()
 
 
@@ -66,18 +65,14 @@ s3_bucket_name = 'new-bucket-e05ab0e0'
 s3_conn = boto3.client('s3')
 
 try:
-    bckt_head = s3_conn.meta.client.head_bucket(Bucket=s3_bucket_name)
-    print(bckt_head)
+    s3.meta.client.head_bucket(Bucket=s3_bucket_name)
 
     with (ec2InsDatafile, 'r') as fh:
-        #https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/s3/client/put_object.html
-        response  = s3_conn.put_object(
+        s3_conn.put_object(
             Bucket=s3_bucket_name,
             Key='system_info' + requests.get(meta_data +'/' + instance_id) + '.txt',
             Body=fh.read()
         )
-        print(response)
     print("File has been uploaded into " + s3_bucket_name + " S3 bucket with instance_id key.")
-except ClientError as e:
-    print(e.response['Error']['Message'])
-    print("Are you sure the destination bucket exist? Check it.")
+except ClientError:
+    "Are you sure the destination bucket exist? Check it."
